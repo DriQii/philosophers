@@ -42,9 +42,10 @@ typedef enum    e_state
 
 typedef struct  s_time
 {
-    int      tdie;
-    int      teat;
-    int      tsleep;
+    int		tdie;
+    int		teat;
+    int		tsleep;
+	int		nbeat;
 }               t_time;
 
 typedef struct  s_philo
@@ -75,6 +76,8 @@ void    ft_think(t_philo *philo, int time);
 void    ft_sleep(t_philo *philo, int time);
 void    ft_print_output(t_philo *philo, int state);
 void    ft_eat(t_philo *philo, int time, t_philo *first);
+void	ft_usleep(uint64_t sleep_time);
+u_int64_t	get_time(void);
 
 t_philo *ft_create_lstphilo(int len, t_time actime);
 

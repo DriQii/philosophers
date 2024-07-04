@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-NAME = philosophers
+NAME = philo
 
 DIR_SRCS	=	srcs
 DIR_OBJS	=	.objs
@@ -35,7 +35,7 @@ $(NAME) :   $(OBJS)
 	@printf "$(BLUE) > Libft Compilation ...\n$(END)"
 	@$(MAKE) -C libft
 	@printf "$(ERASE)$(GREEN)Libft made !\n$(END)"
-	@$(CC) $(CFLAGS) $(OBJS) -L./libft/ -lft -I$(brew --prefix readline)/include -L$(brew --prefix readline)/lib -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -L./libft/ -lft -o $(NAME)
 	@printf "$(ERASE)$(GREEN)$(NAME) made !\n$(END)"
 
 clean   :
