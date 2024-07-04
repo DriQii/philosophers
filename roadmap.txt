@@ -1,0 +1,32 @@
+chaque philo a une fourchette a gauche et a besoin
+ de deux fourchettes pour manger 
+il mange puis dort , quand il se reveille il pense
+ et il attend de manger
+
+//////////////////
+
+creer une liste chainee de taille n philo
+
+node =  thread
+        fourchette (mutex)
+        etat
+
+
+//////////////////
+
+faire les actions (dormir manger penser)
+
+faire les fonction take et deposit fourchettes
+
+//////////////////
+
+fonction philo
+
+boucle
+    take fork
+    manger
+    deposit fork
+    dormir
+    penser
+
+
