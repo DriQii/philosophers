@@ -5,7 +5,8 @@ static t_philo *ft_create_philo(t_time actime, pthread_mutex_t *print, int nb)
     t_philo *philo;
 
     philo = malloc(sizeof(*philo));
-    pthread_mutex_init(&philo->fork, NULL);
+    if(pthread_mutex_init(&philo->fork, NULL) != 0)
+		return(printf("error mutex init\n"), NULL);
     philo->state = THINK;
     philo->next = NULL;
     philo->actime = actime;
@@ -23,12 +24,17 @@ t_philo *ft_create_lstphilo(int len, t_time actime)
     int     i;
 
     i = 0;
-    pthread_mutex_init(&print, NULL);
+    if(pthread_mutex_init(&print, NULL) != 0)
+		return(printf("error mutex init\n"), NULL);
     philo = ft_create_philo(actime, &print, i);
+	if (!philo)
+			return(NULL);
     fphilo = philo;
     while(i++ < len - 1)
     {
         philo->next = ft_create_philo(actime, &print, i);
+		if (!philo->next)
+			return(NULL);
         philo = philo->next;
         philo->first = fphilo;
     }

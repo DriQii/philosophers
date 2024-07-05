@@ -41,20 +41,24 @@ int    ft_eat(t_philo *philo, int time, t_philo *first)
     if (philo->next)
         pthread_mutex_lock(&philo->next->fork);
     else
+    {
         pthread_mutex_lock(&first->fork);
+    }
 	if (philo->dead != 0)
 		return (1);
     ft_print_output(philo, 3);
 	if (philo->dead != 0)
 		return (1);
-    ft_print_output(philo, 0);
     philo->state = EAT;
+    ft_print_output(philo, 0);
     ft_msleep(time);
 	philo->leat = get_time();
     pthread_mutex_unlock(&philo->fork);
     if (philo->next)
         pthread_mutex_unlock(&philo->next->fork);
     else
+    {
         pthread_mutex_unlock(&first->fork);
+    }
 	return (0);
 }

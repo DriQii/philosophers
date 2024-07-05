@@ -43,8 +43,11 @@ int main(int argc, char **argv)
 		actime.nbeat = -1;
     data.nbphilo = ft_atoi(argv[1]);
     data.first = ft_create_lstphilo(data.nbphilo, actime);
+	if (!data.first)
+		return (printf("error\n"), 1);
     ft_create_thread(&data);
-	pthread_create(&alive, NULL, ft_routine_alive, &data);
-	pthread_join(alive, NULL);
+    pthread_create(&alive, NULL, ft_routine_alive, &data);
     ft_wait_thread(&data);
+    pthread_join(alive, NULL);
+    ft_exit(&data, -1);
 }

@@ -1,6 +1,6 @@
 #include "../include/philosophers.h"
 
-static void	ft_exit(t_data *data, int nb)
+void	ft_exit(t_data *data, int nb)
 {
 	int     i;
     t_philo *tmp;
@@ -51,8 +51,7 @@ static int	ft_check_alive(t_data *data)
 	tmp = data->first;
 	while(tmp)
 	{
-		//printf("%lld, %lld, %lld, %d\n", tmp->leat, tmp->actime.tdie, get_time(), tmp->nb);
-		if((tmp->leat + tmp->actime.tdie) < (get_time() + 10)
+		if((tmp->leat + tmp->actime.tdie) < get_time()
 			&& tmp->state != EAT)
 			{
 				ft_set_dead(data);
@@ -68,6 +67,7 @@ void	*ft_routine_alive(void *arg)
 {
 	int alive;
 
+	usleep(1000);
 	while(ft_check_end(arg))
 	{
 		alive = ft_check_alive(arg);

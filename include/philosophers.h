@@ -81,6 +81,7 @@ void			ft_sleep(t_philo *philo, int time);
 void			ft_print_output(t_philo *philo, int state);
 void			*ft_routine_alive(void *arg);
 void			ft_msleep(long long int time);
+void	        ft_exit(t_data *data, int nb);
 int			ft_eat(t_philo *philo, int time, t_philo *first);
 long long int	get_time(void);
 
