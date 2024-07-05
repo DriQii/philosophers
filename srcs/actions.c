@@ -18,14 +18,11 @@ void    ft_print_output(t_philo *philo, int state)
 	 else if (state == 4)
     {
         str = ft_strdup("died");
-        /* if (philo->actime.teat > philo->actime.tsleep)
-            ft_msleep(philo->actime.teat);
-        else
-            ft_msleep(philo->actime.tsleep); */
+        usleep(1000000);
     }
-    pthread_mutex_lock(philo->print);
+    pthread_mutex_lock(&philo->print);
 	printf("%lld %d %s\n", time, (int)philo->nb, str);
-    pthread_mutex_unlock(philo->print);
+    pthread_mutex_unlock(&philo->print);
 	free(str);
 }
 

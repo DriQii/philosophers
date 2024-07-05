@@ -10,7 +10,7 @@ static t_philo *ft_create_philo(t_time actime, pthread_mutex_t *print, int nb)
     philo->state = THINK;
     philo->next = NULL;
     philo->actime = actime;
-    philo->print = print;
+    philo->print = *print;
     philo->nb = nb + 1;
 	philo->dead = 0;
     return (philo);

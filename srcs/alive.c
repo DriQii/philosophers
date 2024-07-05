@@ -1,6 +1,6 @@
 #include "../include/philosophers.h"
 
-void	ft_exit(t_data *data, int nb)
+void	ft_exit(t_data *data, int nb, int state)
 {
 	int     i;
     t_philo			*tmp;
@@ -9,18 +9,22 @@ void	ft_exit(t_data *data, int nb)
 
     i = 0;
     tmp = data->first;
-	mutmp = *(data->first->print);
+	mutmp = data->first->print;
     while (i++ < data->nbphilo)
     {
 		if (i == nb)
 			ft_print_output(tmp, 4);
-        pthread_mutex_destroy(&tmp->fork);
-		tmp2 = tmp;
-        tmp = tmp->next;
-		free(tmp2);
+        if (state == 0)
+		{
+			pthread_mutex_destroy(&tmp->fork);
+			tmp2 = tmp;
+        	tmp = tmp->next;
+			free(tmp2);
+		}
     }
 	pthread_mutex_destroy(&mutmp);
-	exit(0);
+	if (state == 0)
+		exit(0);
 }
 
 static int	ft_check_end(t_data *data)
@@ -71,17 +75,15 @@ static int	ft_check_alive(t_data *data)
 void	*ft_routine_alive(void *arg)
 {
 	int alive;
-	int	end;
-
-	end = 0;
+	
 	usleep(1000);
-	while(ft_check_end(arg) || end)
+	while(ft_check_end(arg))
 	{
 		alive = ft_check_alive(arg);
 		if (alive != -1)
 		{
-			ft_exit(arg, alive);
-			end = 1;
+			ft_exit(arg, alive, 1);
+			break;
 		}
 	}
 	return (arg);

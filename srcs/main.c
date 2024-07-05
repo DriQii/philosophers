@@ -49,5 +49,5 @@ int main(int argc, char **argv)
     pthread_create(&alive, NULL, ft_routine_alive, &data);
     ft_wait_thread(&data);
     pthread_join(alive, NULL);
-    ft_exit(&data, -1);
+    ft_exit(&data, -1, 0);
 }
