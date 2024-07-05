@@ -11,6 +11,7 @@ static t_philo *ft_create_philo(t_time actime, pthread_mutex_t *print, int nb)
     philo->actime = actime;
     philo->print = print;
     philo->nb = nb + 1;
+	philo->dead = 0;
     return (philo);
 }
 
@@ -25,7 +26,7 @@ t_philo *ft_create_lstphilo(int len, t_time actime)
     pthread_mutex_init(&print, NULL);
     philo = ft_create_philo(actime, &print, i);
     fphilo = philo;
-    while(i++ < len)
+    while(i++ < len - 1)
     {
         philo->next = ft_create_philo(actime, &print, i);
         philo = philo->next;

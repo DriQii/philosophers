@@ -9,6 +9,8 @@ DIR_OBJS	=	.objs
 
 LST_SRCS =	main.c \
 			init.c \
+			alive.c \
+			utils.c \
 			actions.c \
 
 LST_OBJS = $(LST_SRCS:.c=.o)

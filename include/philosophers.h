@@ -37,20 +37,23 @@ typedef enum    e_state
     SLEEP,
     EAT,
     DEAD,
+	END,
 }
                t_state;
 
 typedef struct  s_time
 {
-    int		tdie;
-    int		teat;
-    int		tsleep;
-	int		nbeat;
+    long long int		tdie;
+    long long int		teat;
+    long long int		tsleep;
+	long long int		nbeat;
 }               t_time;
 
 typedef struct  s_philo
 {
     int             nb;
+	int				dead;
+	long long int	leat;
     t_time          actime;
     t_state         state;
     pthread_t       thread;
@@ -69,16 +72,16 @@ typedef struct  s_data
    int      nbphilo;
 }               t_data;
 
-void    *ft_routine(void *arg);
-void    ft_wait_thread(t_data *data);
-void    ft_create_thread(t_data *data);
-void    ft_think(t_philo *philo, int time);
-void    ft_sleep(t_philo *philo, int time);
-void    ft_print_output(t_philo *philo, int state);
-void    ft_eat(t_philo *philo, int time, t_philo *first);
-void	ft_usleep(uint64_t sleep_time);
-u_int64_t	get_time(void);
+t_philo			*ft_create_lstphilo(int len, t_time actime);
 
-t_philo *ft_create_lstphilo(int len, t_time actime);
+void			*ft_routine(void *arg);
+void			ft_wait_thread(t_data *data);
+void			ft_create_thread(t_data *data);
+void			ft_sleep(t_philo *philo, int time);
+void			ft_print_output(t_philo *philo, int state);
+void			*ft_routine_alive(void *arg);
+void			ft_msleep(long long int time);
+int			ft_eat(t_philo *philo, int time, t_philo *first);
+long long int	get_time(void);
 
 #endif
