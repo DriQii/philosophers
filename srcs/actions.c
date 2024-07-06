@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/06 21:12:39 by evella            #+#    #+#             */
+/*   Updated: 2024/07/06 21:12:40 by evella           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philosophers.h"
 
 void	ft_sleep(t_philo *philo, int time)
@@ -37,6 +49,9 @@ void	ft_deposit_fork(t_philo *philo, t_philo *first)
 	{
 		pthread_mutex_unlock(&first->fork);
 	}
+	pthread_mutex_lock(&philo->mustate);
+	philo->state = THINK;
+	pthread_mutex_unlock(&philo->mustate);
 }
 
 int	ft_eat(t_philo *philo, int time, t_philo *first)
@@ -65,6 +80,5 @@ int	ft_eat(t_philo *philo, int time, t_philo *first)
 	pthread_mutex_unlock(&philo->mustate);
 	ft_msleep(time);
 	ft_deposit_fork(philo, first);
-	philo->state = THINK;
 	return (0);
 }
