@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
 # include "../libft/libft.h"
 # include <pthread.h>

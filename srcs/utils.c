@@ -20,10 +20,12 @@ long long int	get_time(void)
 		return (0);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
+
 void	ft_msleep(long long int time)
 {
 	usleep(time * 1000);
 }
+
 void	ft_print_dead(t_data *data, int nb)
 {
 	int		i;
