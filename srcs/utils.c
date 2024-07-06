@@ -34,16 +34,19 @@ void	ft_exit(t_data *data)
 
     i = 0;
     tmp = data->first;
-    usleep(100000);
-	pthread_mutex_destroy(tmp->print);
     while (i++ < data->nbphilo)
     {
         pthread_mutex_lock(&tmp->mustate);
         while(tmp->state != END && tmp->state != DEAD)
         {
+            usleep(10000);
             pthread_mutex_unlock(&tmp->mustate);
+            usleep(10000);
             pthread_mutex_lock(&tmp->mustate);
+            usleep(10000);
         }
+        if (i == 1)
+	        pthread_mutex_destroy(tmp->print);
         pthread_mutex_unlock(&tmp->mustate);
 		pthread_mutex_destroy(&tmp->fork);
 		tmp2 = tmp;
