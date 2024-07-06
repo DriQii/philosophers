@@ -1,32 +1,5 @@
 #include "../include/philosophers.h"
 
-void	ft_exit(t_data *data, int nb, int state)
-{
-	int     i;
-    t_philo			*tmp;
-	t_philo			*tmp2;
-	pthread_mutex_t	mutmp;
-
-    i = 0;
-    tmp = data->first;
-	mutmp = data->first->print;
-    while (i++ < data->nbphilo)
-    {
-		if (i == nb)
-			ft_print_output(tmp, 4);
-        if (state == 0)
-		{
-			pthread_mutex_destroy(&tmp->fork);
-			tmp2 = tmp;
-        	tmp = tmp->next;
-			free(tmp2);
-		}
-    }
-	pthread_mutex_destroy(&mutmp);
-	if (state == 0)
-		exit(0);
-}
-
 static int	ft_check_end(t_data *data)
 {
 	t_philo *tmp;
@@ -34,8 +7,10 @@ static int	ft_check_end(t_data *data)
 	tmp = data->first;
 	while(tmp)
 	{
+		pthread_mutex_lock(&tmp->mustate);
 		if (tmp->state != END)
-			return (1);
+			return (pthread_mutex_unlock(&tmp->mustate), 1);
+		pthread_mutex_unlock(&tmp->mustate);
 		tmp = tmp->next;
 	}
 	return (0);
@@ -48,7 +23,9 @@ static void	ft_set_dead(t_data *data)
 	tmp = data->first;
 	while(tmp)
 	{
+		pthread_mutex_lock(&tmp->mustate);
 		tmp->dead = 1;
+		pthread_mutex_unlock(&tmp->mustate);
 		tmp = tmp->next;
 	}
 }
@@ -60,13 +37,21 @@ static int	ft_check_alive(t_data *data)
 	tmp = data->first;
 	while(tmp)
 	{
+		pthread_mutex_lock(&tmp->mueat);
+		pthread_mutex_lock(&tmp->mustate);
 		if((tmp->leat + tmp->actime.tdie) < get_time()
 			&& tmp->state != EAT)
 			{
+				pthread_mutex_unlock(&tmp->mueat);
+				pthread_mutex_unlock(&tmp->mustate);
 				ft_set_dead(data);
+				pthread_mutex_lock(&tmp->mustate);
 				tmp->state = DEAD;
+				pthread_mutex_unlock(&tmp->mustate);
 				return(tmp->nb);
 			}
+		pthread_mutex_unlock(&tmp->mustate);
+		pthread_mutex_unlock(&tmp->mueat);
 		tmp = tmp->next;
 	}
 	return (-1);
@@ -82,7 +67,7 @@ void	*ft_routine_alive(void *arg)
 		alive = ft_check_alive(arg);
 		if (alive != -1)
 		{
-			ft_exit(arg, alive, 1);
+			ft_print_dead(arg, alive);
 			break;
 		}
 	}
