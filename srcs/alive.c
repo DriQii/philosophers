@@ -60,7 +60,7 @@ static int	ft_check_alive(t_data *data)
 void	*ft_routine_alive(void *arg)
 {
 	int alive;
-	
+
 	usleep(1000);
 	while(ft_check_end(arg))
 	{
