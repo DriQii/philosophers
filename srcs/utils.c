@@ -87,8 +87,11 @@ void	ft_print_output(t_philo *philo, int state)
 	else if (state == 4)
 	{
 		str = ft_strdup("died");
-		usleep(200000);
 	}
+	pthread_mutex_lock(&philo->mustate);
+	if (philo->dead != 0 && state != 4)
+		return (pthread_mutex_unlock(&philo->mustate), free(str));
+	pthread_mutex_unlock(&philo->mustate);
 	pthread_mutex_lock(philo->print);
 	printf("%lld %d %s\n", time, (int)philo->nb, str);
 	pthread_mutex_unlock(philo->print);
