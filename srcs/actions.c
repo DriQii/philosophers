@@ -14,8 +14,8 @@ int   ft_take_fork(t_philo *philo, t_philo *first)
 {
     pthread_mutex_lock(&philo->fork);
     pthread_mutex_lock(&philo->mustate);
-    if (philo->dead != 0)
-        return ((void)pthread_mutex_unlock(&philo->mustate), 1);
+    if (philo->dead != 0 || philo->state == DEAD)
+        return (pthread_mutex_unlock(&philo->fork), pthread_mutex_unlock(&philo->mustate), 1);
     pthread_mutex_unlock(&philo->mustate);
     ft_print_output(philo, 3);
     if (philo->next)
@@ -52,7 +52,11 @@ int    ft_eat(t_philo *philo, int time, t_philo *first)
     ft_print_output(philo, 3);
     pthread_mutex_lock(&philo->mustate);
 	if (philo->dead != 0)
-		return (ft_deposit_fork(philo, first), pthread_mutex_unlock(&philo->mustate), 1);
+	{
+        pthread_mutex_unlock(&philo->mustate);
+        ft_deposit_fork(philo, first);
+        return (1);
+    }
     philo->state = EAT;
     pthread_mutex_unlock(&philo->mustate);
     ft_print_output(philo, 0);

@@ -39,11 +39,11 @@ void	ft_exit(t_data *data)
         pthread_mutex_lock(&tmp->mustate);
         while(tmp->state != END && tmp->state != DEAD)
         {
-            usleep(10000);
+            usleep(1000);
             pthread_mutex_unlock(&tmp->mustate);
-            usleep(10000);
+            usleep(1000);
             pthread_mutex_lock(&tmp->mustate);
-            usleep(10000);
+            usleep(1000);
         }
         if (i == 1)
 	        pthread_mutex_destroy(tmp->print);
@@ -73,7 +73,7 @@ void    ft_print_output(t_philo *philo, int state)
 	 else if (state == 4)
     {
         str = ft_strdup("died");
-        usleep(1000000);
+        usleep(200000);
     }
     pthread_mutex_lock(philo->print);
 	printf("%lld %d %s\n", time, (int)philo->nb, str);

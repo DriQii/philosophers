@@ -1,13 +1,15 @@
 #include "../include/philosophers.h"
 
+
 void    *ft_routine(void *arg)
 {
     t_philo *philo;
     int i = 0;
 
 	philo = (t_philo *)arg;
-    
+    pthread_mutex_lock(&philo->mueat);
 	philo->leat = get_time();
+    pthread_mutex_unlock(&philo->mueat);
 	ft_print_output(philo, 2);
 	if (philo->nb % 2 != 0)
 		ft_msleep(philo->actime.teat / 3);

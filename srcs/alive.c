@@ -42,8 +42,8 @@ static int	ft_check_alive(t_data *data)
 		if((tmp->leat + tmp->actime.tdie) < get_time()
 			&& tmp->state != EAT)
 			{
-				pthread_mutex_unlock(&tmp->mueat);
 				pthread_mutex_unlock(&tmp->mustate);
+				pthread_mutex_unlock(&tmp->mueat);
 				ft_set_dead(data);
 				pthread_mutex_lock(&tmp->mustate);
 				tmp->state = DEAD;
