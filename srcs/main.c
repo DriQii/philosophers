@@ -28,7 +28,32 @@ void    *ft_routine(void *arg)
     return(arg);
 }
 
+int ft_check_arg(int argc, char **argv)
+{
+    int i;
+    int j;
 
+    i = 1;
+    j = 0;
+    while(i < argc)
+    {
+        while(argv[i][j])
+        {
+            if(argv[i][j] < '0' || argv[i][j] > '9')
+            {
+                printf("Use only numeric character\n");
+                printf("ARGS :\n[number_of_philosophers]\n[time_to_");
+                printf("die]\n[time_to_eat]\n[time_to_sleep]\n\nOPTIONAL:\n");
+                printf("[number_of_times_each_philosopher_must_eat]\n");
+                return (1);
+            }
+            j++;
+        }
+        i++;
+        j = 0;
+    }
+    return(0);
+}
 
 int main(int argc, char **argv)
 {
@@ -37,7 +62,7 @@ int main(int argc, char **argv)
 	pthread_t	    alive;
     pthread_mutex_t print;
 
-    if (argc < 5 || argc > 6)
+    if (argc < 5 || argc > 6 || ft_check_arg(argc, argv))
         return (1);
 	else if (argc == 6)
 		actime.nbeat = ft_atoi(argv[5]);
@@ -52,7 +77,6 @@ int main(int argc, char **argv)
 	if (!data.first)
 		return (1);
     ft_create_thread(&data);
-    usleep(1000);
     pthread_create(&alive, NULL, ft_routine_alive, &data);
     ft_wait_thread(&data);
     pthread_join(alive, NULL);

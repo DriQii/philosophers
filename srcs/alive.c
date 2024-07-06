@@ -33,17 +33,18 @@ static void	ft_set_dead(t_data *data)
 static int	ft_check_alive(t_data *data)
 {
 	t_philo *tmp;
+	long long int		eattime;
 
 	tmp = data->first;
 	while(tmp)
 	{
 		pthread_mutex_lock(&tmp->mueat);
+		eattime = tmp->leat + tmp->actime.tdie;
+		pthread_mutex_unlock(&tmp->mueat);
 		pthread_mutex_lock(&tmp->mustate);
-		if((tmp->leat + tmp->actime.tdie) < get_time()
-			&& tmp->state != EAT)
+		if((eattime) < get_time() && tmp->state != EAT)
 			{
 				pthread_mutex_unlock(&tmp->mustate);
-				pthread_mutex_unlock(&tmp->mueat);
 				ft_set_dead(data);
 				pthread_mutex_lock(&tmp->mustate);
 				tmp->state = DEAD;
@@ -51,7 +52,6 @@ static int	ft_check_alive(t_data *data)
 				return(tmp->nb);
 			}
 		pthread_mutex_unlock(&tmp->mustate);
-		pthread_mutex_unlock(&tmp->mueat);
 		tmp = tmp->next;
 	}
 	return (-1);

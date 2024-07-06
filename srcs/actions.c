@@ -29,6 +29,9 @@ int   ft_take_fork(t_philo *philo, t_philo *first)
 
 void    ft_deposit_fork(t_philo *philo, t_philo *first)
 {
+    pthread_mutex_lock(&philo->mueat);
+    philo->leat = get_time();
+    pthread_mutex_unlock(&philo->mueat);
     pthread_mutex_unlock(&philo->fork);
     if (philo->next)
         pthread_mutex_unlock(&philo->next->fork);
@@ -36,9 +39,6 @@ void    ft_deposit_fork(t_philo *philo, t_philo *first)
     {
         pthread_mutex_unlock(&first->fork);
     }
-    pthread_mutex_lock(&philo->mueat);
-    philo->leat = get_time();
-    pthread_mutex_unlock(&philo->mueat);
 }
 
 int    ft_eat(t_philo *philo, int time, t_philo *first)
@@ -51,13 +51,13 @@ int    ft_eat(t_philo *philo, int time, t_philo *first)
         return(1);
     ft_print_output(philo, 3);
     pthread_mutex_lock(&philo->mustate);
+    philo->state = EAT;
 	if (philo->dead != 0)
 	{
         pthread_mutex_unlock(&philo->mustate);
         ft_deposit_fork(philo, first);
         return (1);
     }
-    philo->state = EAT;
     pthread_mutex_unlock(&philo->mustate);
     ft_print_output(philo, 0);
     ft_msleep(time);
